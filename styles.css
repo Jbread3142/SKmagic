@@ -800,7 +800,8 @@ img {
 }
 
 .rental-type-tabs {
-  display: inline-flex;
+  display: flex;
+  flex-wrap: wrap;
   gap: 0;
   margin-top: 22px;
   margin-bottom: 22px;
@@ -816,6 +817,7 @@ img {
 }
 
 .rental-type-tabs button {
+  flex: 1;
   min-width: 112px;
   height: 40px;
   border: 0;
@@ -843,6 +845,32 @@ img {
 
 .rental-panel.is-active {
   display: block;
+}
+
+.product-price-basis {
+  margin: 8px 0 0;
+  color: #626c7a;
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+.rental-price-guide h3 small {
+  display: inline-block;
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.rental-cycle {
+  margin: 0 0 20px;
+  color: #626c7a;
+  font-size: 14px;
+}
+
+.rental-plan-note {
+  margin: 8px 0 0;
+  color: #626c7a;
+  font-size: 13px;
+  line-height: 1.6;
 }
 
 .single-detail-image {

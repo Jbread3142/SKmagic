@@ -45,7 +45,7 @@ function allProducts() {
 }
 
 function productHref(product) {
-  if (product.model === "WPU-IAC606") {
+  if (product.id === "G000069931") {
     return "product-detail-wpu-iac606.html";
   }
   if (product.category === "공기청정기") {
@@ -88,6 +88,9 @@ function productCard(product, variant = "best") {
   const benefit = product.benefit
     ? `<div class="product-benefit">${product.benefit}</div>`
     : "";
+  const priceBasis = product.priceBasis
+    ? `<p class="product-price-basis">월 렌탈료 · ${product.priceBasis}</p>`
+    : "";
 
   return `
     <article class="product-card ${variant}">
@@ -98,6 +101,7 @@ function productCard(product, variant = "best") {
         <h3><span class="product-name">${title.name}</span>${model}</h3>
         ${benefit}
         <div class="product-price">${formatPrice(product.price)}${original}</div>
+        ${priceBasis}
       </div>
     </article>
   `;
@@ -173,12 +177,22 @@ function renderPlanRow(basePlan, tradePlan) {
   const trade = tradePlan
     ? `<i></i><strong class="trade-label">타사보상 <em>월</em></strong><span>${formatPrice(tradePlan.price)}</span>`
     : "";
+  const ownership = basePlan.ownershipMonths
+    ? ` <small>(소유권 이전 ${basePlan.ownershipMonths}개월)</small>`
+    : "";
+  const promotion = basePlan.halfPriceMonths
+    ? `<p class="rental-plan-note">첫 ${basePlan.halfPriceMonths}개월 월 ${formatPrice(basePlan.price / 2)} · 이후 월 ${formatPrice(basePlan.price)}</p>`
+    : "";
+  const tradePromotion = tradePlan?.halfPriceMonths
+    ? `<p class="rental-plan-note">타사보상: 첫 ${tradePlan.halfPriceMonths}개월 월 ${formatPrice(tradePlan.price / 2)} · 이후 월 ${formatPrice(tradePlan.price)}</p>`
+    : "";
   return `
     <section>
-      <h3>${basePlan.term}</h3>
+      <h3>${basePlan.term}${ownership}</h3>
       <ul>
         <li><strong><em>월</em></strong><span>${formatPrice(basePlan.price)}</span>${trade}</li>
       </ul>
+      ${promotion}${tradePromotion}
     </section>
   `;
 }
@@ -186,8 +200,10 @@ function renderPlanRow(basePlan, tradePlan) {
 function renderRentalPanel(key, plans = [], tradePlans = [], activeKey = "visit") {
   if (!plans.length) return "";
   const tradeByTerm = planByTerm(tradePlans);
+  const serviceCycle = plans[0]?.serviceCycle;
   return `
     <div class="rental-panel${key === activeKey ? " is-active" : ""}" data-rental-panel="${key}">
+      ${serviceCycle ? `<p class="rental-cycle">${key === "self" ? "셀프관리 방문 케어" : "방문관리"} ${serviceCycle} 주기</p>` : ""}
       ${plans.map((plan) => renderPlanRow(plan, tradeByTerm[plan.term])).join("")}
     </div>
   `;
@@ -205,7 +221,7 @@ function renderRentalGuide(guide, product) {
   const activeRentalType = rentalTypes[0] || "visit";
   const tabButtons = rentalTypes
     .map((key) => {
-      return `<button class="${activeRentalType === key ? "is-active" : ""}" type="button" data-rental-tab="${key}">${rentalLabel(product, key)}</button>`;
+      return `<button class="${activeRentalType === key ? "is-active" : ""}" type="button" role="tab" aria-selected="${activeRentalType === key}" data-rental-tab="${key}">${rentalLabel(product, key)}</button>`;
     })
     .join("");
 
@@ -231,6 +247,7 @@ function renderWaterDetailPage() {
   const badges = document.querySelector("[data-water-detail-badges]");
   const guide = document.querySelector("[data-water-rental-guide]");
   const detailStack = document.querySelector("[data-water-detail-stack]");
+  const serviceNote = document.querySelector("[data-water-service-note]");
   const plans = product.rentalPlans || {};
 
   if (image) {
@@ -249,9 +266,18 @@ function renderWaterDetailPage() {
   if (guide) {
     renderRentalGuide(guide, product);
   }
+  if (serviceNote) {
+    const hasTrade = Object.entries(plans).some(([key, values]) => key.endsWith("Trade") && values.length);
+    serviceNote.innerHTML = [
+      `<p>표시 요금은 제휴카드 할인 전 월 렌탈료입니다. 반값 할인 기간과 이후 요금은 약정별로 확인해 주세요.</p>`,
+      hasTrade ? `<p>타사보상 요금은 기존 타사 정수기를 사용하던 고객에게 적용됩니다. 기존 제품은 해당 브랜드에 반납합니다.</p>` : "",
+      product.tradePromotionNote ? `<p>${product.tradePromotionNote}</p>` : "",
+    ].join("");
+  }
   if (detailStack) {
-    detailStack.innerHTML = product.detailImage
-      ? `<img src="${product.detailImage}" alt="${product.name} ${product.model} 상세 이미지">`
+    const detailImages = product.detailImages?.length ? product.detailImages : (product.detailImage ? [product.detailImage] : []);
+    detailStack.innerHTML = detailImages.length
+      ? detailImages.map((src, index) => `<img src="${src}" alt="${product.name} ${product.model} 상세 이미지 ${index + 1}" loading="lazy">`).join("")
       : `<p class="detail-placeholder">상세 이미지는 준비 중입니다.</p>`;
   }
 }
@@ -369,6 +395,7 @@ function bindRentalTabs() {
     tab.addEventListener("click", () => {
       const target = tab.dataset.rentalTab;
       tabs.forEach((item) => item.classList.toggle("is-active", item === tab));
+      tabs.forEach((item) => item.setAttribute("aria-selected", String(item === tab)));
       panels.forEach((panel) => {
         panel.classList.toggle("is-active", panel.dataset.rentalPanel === target);
       });

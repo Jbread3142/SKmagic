@@ -8,7 +8,7 @@
     <link rel="icon" href="assets/favicon.ico">
     <link rel="stylesheet" href="styles.css">
   </head>
-  <body data-page="detail">
+  <body data-page="water-detail">
     <header class="site-header">
       <a class="brand" href="index.html" aria-label="홈으로 이동"><img src="assets/sk.svg" alt="SK magic"></a>
       <div class="header-actions">
@@ -29,69 +29,15 @@
       <section class="product-detail-hero">
         <div class="detail-gallery">
           <div class="detail-main-image">
-            <img src="assets/images/1-water-products/G000069931-WPU-IAC606.png" alt="MEGA ICE 얼음정수기 mini WPU-IAC606">
+            <img data-water-detail-image src="assets/images/1-water-products/G000069931-WPU-IAC606.png" alt="MEGA ICE 얼음정수기 mini WPU-IAC606">
           </div>
         </div>
 
         <div class="detail-summary original-summary">
-          <h1>
-            MEGA ICE 얼음정수기 mini
-            <span>WPU-IAC606</span>
-          </h1>
-          <div class="summary-badges">
-            <span>18개월 반값</span>
-            <span class="light">타사보상할인</span>
-          </div>
-          <div class="rental-price-guide rental-price-compare">
-            <div class="rental-type-tabs" role="tablist" aria-label="관리 방식 선택">
-              <button class="is-active" type="button" data-rental-tab="visit">방문관리</button>
-              <button type="button" data-rental-tab="self">셀프관리</button>
-            </div>
-
-            <div class="rental-panel is-active" data-rental-panel="visit">
-              <section>
-                <h3>3년 의무약정 (5년 기본약정)</h3>
-                <ul><li><strong><em>월</em></strong><span>48,900원</span><i></i><strong class="trade-label">타사보상 <em>월</em></strong><span>41,900원</span></li></ul>
-              </section>
-              <section>
-                <h3>5년 의무약정 (5년 기본약정)</h3>
-                <ul><li><strong><em>월</em></strong><span>45,900원</span><i></i><strong class="trade-label">타사보상 <em>월</em></strong><span>38,900원</span></li></ul>
-              </section>
-              <section>
-                <h3>6년 의무약정 (6년 기본약정)</h3>
-                <ul><li><strong><em>월</em></strong><span>44,900원</span><i></i><strong class="trade-label">타사보상 <em>월</em></strong><span>37,900원</span></li></ul>
-              </section>
-              <section>
-                <h3>7년 의무약정 (7년 기본약정)</h3>
-                <ul><li><strong><em>월</em></strong><span>43,900원</span><i></i><strong class="trade-label">타사보상 <em>월</em></strong><span>36,900원</span></li></ul>
-              </section>
-            </div>
-
-            <div class="rental-panel" data-rental-panel="self">
-              <section>
-                <h3>3년 의무약정 (5년 기본약정)</h3>
-                <ul><li><strong><em>월</em></strong><span>46,900원</span><i></i><strong class="trade-label">타사보상 <em>월</em></strong><span>39,900원</span></li></ul>
-              </section>
-              <section>
-                <h3>5년 의무약정 (5년 기본약정)</h3>
-                <ul><li><strong><em>월</em></strong><span>43,900원</span><i></i><strong class="trade-label">타사보상 <em>월</em></strong><span>36,900원</span></li></ul>
-              </section>
-              <section>
-                <h3>6년 의무약정 (6년 기본약정)</h3>
-                <ul><li><strong><em>월</em></strong><span>42,900원</span><i></i><strong class="trade-label">타사보상 <em>월</em></strong><span>35,900원</span></li></ul>
-              </section>
-              <section>
-                <h3>7년 의무약정 (7년 기본약정)</h3>
-                <ul><li><strong><em>월</em></strong><span>41,900원</span><i></i><strong class="trade-label">타사보상 <em>월</em></strong><span>34,900원</span></li></ul>
-              </section>
-            </div>
-          </div>
-
-          <div class="rental-service-note">
-            <p>셀프관리 - 4개월 주기 필터 배송 및 12개월 주기 방문 케어서비스</p>
-            <p>방문관리 - 4개월 주기 필터 교체 및 방문 케어서비스</p>
-            <p>타사보상 - 기존에 타사 정수기를 사용하시던 고객님께서 받으시는 할인 프로모션입니다. (기존 정수기는 기존 브랜드에 반납)</p>
-          </div>
+          <h1 data-water-detail-title></h1>
+          <div class="summary-badges" data-water-detail-badges></div>
+          <div class="rental-price-guide rental-price-compare" data-water-rental-guide></div>
+          <div class="rental-service-note" data-water-service-note></div>
 
           <div class="detail-cta-row">
             <a class="primary-btn" href="http://pf.kakao.com/_nBxkfG" target="_blank" rel="noopener">렌탈 신청하기</a>
@@ -105,7 +51,7 @@
         <a href="#consulting">상담신청</a>
       </nav>
 
-      <section id="detail-images" class="detail-image-stack product-story single-detail-image">
+      <section id="detail-images" class="detail-image-stack product-story single-detail-image" data-water-detail-stack>
         <img src="assets/images/1-water-detail/WPUIAC606.jpg" alt="MEGA ICE 얼음정수기 mini 상세 이미지">
       </section>
 
